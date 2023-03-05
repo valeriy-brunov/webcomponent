@@ -1,0 +1,25 @@
+{
+    "name": "valeriy-brunov/webcomponent",
+    "description": "Плагин позволяет использовать в виде веб-компоненты, создавать каркас веб-компонентов из командной строки, а также производить тестирование веб-компонентов.",
+    "type": "cakephp-plugin",
+    "home": "https://github.com/valeriy-brunov/webсomponent",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "cakephp/cakephp": "4.4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5 || ^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webcomponent\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webcomponent\\Test\\": "tests/",
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
+        }
+    }
+}
