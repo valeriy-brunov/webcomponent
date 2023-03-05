@@ -17,6 +17,12 @@ composer dumpautoload
 bin/cake plugin load webcomponent
 ```
 
+Для удаления плагина используйте команду:
+
+```
+composer remove valeriy-brunov/webcomponent --update-with-dependencies
+```
+
 ### Настройка
 
 После установки плагина необходимо подключить помошник плагина. Для этого необходимо добавить строку:
