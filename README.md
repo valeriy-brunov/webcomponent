@@ -14,7 +14,7 @@
 ```
 composer require valeriy-brunov/webcomponent
 composer dumpautoload
-bin/cake plugin load webcomponent
+bin/cake plugin load Webcomponent
 ```
 
 Для удаления плагина используйте команду:
