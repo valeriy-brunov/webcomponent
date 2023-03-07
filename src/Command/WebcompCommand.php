@@ -43,6 +43,14 @@ class WebcompCommand extends Command
             ],
         ]);
 
+        // Опция.
+        $parser->addOption('plugin', [
+            'help' => 'Создает в плагине файлы веб-компонента.',
+            'short' => 'p',
+            'boolean' => true,
+        ]);
+
+        // Аргумент.
         $parser->addArgument('name', [
             'help' => 'Имя веб-компонента. Если название веб-компонента состоит из нескольких слов, то необходимо между словами указать знак дефис.',
             'required' => true,
@@ -64,15 +72,24 @@ class WebcompCommand extends Command
         $name = mb_strtolower($name);
 
         if ( preg_match( '/\_/', $name ) ) {
-            $io->abort('В название имени веб-компонента указан недопустимый символ "_" (подчёркивание).');
+            $io->abort('В название имени веб-компонента указан недопустимый символ "_" (подчёркивание).
+                        Допускается использовать в имени знак "-" (дефис).');
         }
 
         $confApp = Configure::read('App');
-        $pathElement = $confApp['paths']['templates'][0] . 'element' . DS . 'components' . DS;
         $pathPluginTemplate = Plugin::templatePath('WebComponent');
 
-        $pathJs = ROOT . DS . $confApp['webroot'] . DS . $confApp['jsBaseUrl'] . 'components' . DS . str_replace('-', '', $name) . DS;
-        $this->_execNewComp( $name, $pathElement, $pathJs, $pathPluginTemplate, $io );
+        if ( $args->getOption('plugin') ) {
+            $dirPlugin = ucfirst( str_replace('-', '', $name) );
+            $pathElement = $confApp['paths']['plugins'][0] . $dirPlugin . DS . 'templates' . DS . 'element' . DS . 'components' . DS;
+            $pathJs = $confApp['paths']['plugins'][0] . $dirPlugin . DS . $confApp['webroot'] . DS . $confApp['jsBaseUrl'] . 'components' . DS . $name . DS;
+            $this->_execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io);
+        }
+        else {
+            $pathElement = $confApp['paths']['templates'][0] . 'element' . DS . 'components' . DS;
+            $pathJs = ROOT . DS . $confApp['webroot'] . DS . $confApp['jsBaseUrl'] . 'components' . DS . str_replace('-', '', $name) . DS;
+            $this->_execNewComp( $name, $pathElement, $pathJs, $pathPluginTemplate, $io );
+        }
 
         return static::CODE_SUCCESS;
     }
@@ -136,10 +153,9 @@ class WebcompCommand extends Command
                 $arr[$i] = ucwords($arr[$i]);
             }
         }
-        $nameClass = implode('', $arr);
 
+        $nameClass = implode('', $arr);
         $nameWebComp = lcfirst($nameClass);
-        //$nameWebComp = lcfirst( $name );
 
         $content = str_replace([
             '{{ name }}',
