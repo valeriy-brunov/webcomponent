@@ -43,14 +43,21 @@ class WebcompCommand extends Command
             ],
         ]);
 
-        // Опция.
+        // Опция "-plugin".
         $parser->addOption('plugin', [
             'help' => 'Создает в плагине файлы веб-компонента.',
             'short' => 'p',
             'boolean' => true,
         ]);
 
-        // Аргумент.
+        // Опция "-close".
+        $parser->addOption('close', [
+            'help' => 'Создает в плагине файлы веб-компонента для закрытой схемы.',
+            'short' => 'c',
+            'boolean' => true,
+        ]);
+
+        // Аргумент "name".
         $parser->addArgument('name', [
             'help' => 'Имя веб-компонента. Если название веб-компонента состоит из нескольких слов, то необходимо между словами указать знак дефис.',
             'required' => true,
@@ -77,7 +84,7 @@ class WebcompCommand extends Command
         }
 
         $confApp = Configure::read('App');
-        $pathPluginTemplate = Plugin::templatePath('WebComponent');
+        $pathPluginTemplate = Plugin::templatePath('WebComponent');// Имя задаётся в верблюжьей форме.
 
         if ( $args->getOption('plugin') ) {
             $dirPlugin = ucfirst( str_replace('-', '', $name) );
