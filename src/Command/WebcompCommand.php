@@ -90,7 +90,7 @@ class WebcompCommand extends Command
             $dirPlugin = ucfirst( str_replace('-', '', $name) );
             $pathElement = $confApp['paths']['plugins'][0] . $dirPlugin . DS . 'templates' . DS . 'element' . DS . 'components' . DS;
             $pathJs = $confApp['paths']['plugins'][0] . $dirPlugin . DS . $confApp['webroot'] . DS . $confApp['jsBaseUrl'] . 'components' . DS . $name . DS;
-            $this->_execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io);
+            $this->_execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io, $args->getOption('close'));
         }
         else {
             $pathElement = $confApp['paths']['templates'][0] . 'element' . DS . 'components' . DS;
@@ -110,14 +110,25 @@ class WebcompCommand extends Command
      * @param {string} $pathPluginTemplate Месторасположение файлов плагина.
      * @param \Cake\Console\ConsoleIo $io Консольный ввод-вывод.
      */
-    protected function _execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io): void
+    protected function _execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io, $close = null): void
     {
-        $templ = [
-            'js_template.twig',
-            'template_template.twig',
-            'comp_template.twig',
-            'test_template.twig',
-        ];
+        if ( $close ) {
+            $templ = [
+                'jsclose_template.twig',
+                'template_template.twig',
+                'comp_template.twig',
+                'test_template.twig',
+            ];
+        }
+        else {
+            $templ = [
+                'js_template.twig',
+                'template_template.twig',
+                'comp_template.twig',
+                'test_template.twig',
+            ];
+        }
+
         $file = [
             str_replace('-', '', $name) . ".js",
             "template.js",
