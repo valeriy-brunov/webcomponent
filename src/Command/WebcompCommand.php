@@ -95,7 +95,7 @@ class WebcompCommand extends Command
         else {
             $pathElement = $confApp['paths']['templates'][0] . 'element' . DS . 'components' . DS;
             $pathJs = ROOT . DS . $confApp['webroot'] . DS . $confApp['jsBaseUrl'] . 'components' . DS . str_replace('-', '', $name) . DS;
-            $this->_execNewComp( $name, $pathElement, $pathJs, $pathPluginTemplate, $io );
+            $this->_execNewComp( $name, $pathElement, $pathJs, $pathPluginTemplate, $io, $args->getOption('close') );
         }
 
         return static::CODE_SUCCESS;
@@ -110,7 +110,7 @@ class WebcompCommand extends Command
      * @param {string} $pathPluginTemplate Месторасположение файлов плагина.
      * @param \Cake\Console\ConsoleIo $io Консольный ввод-вывод.
      */
-    protected function _execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io, $close = null): void
+    protected function _execNewComp($name, $pathElement, $pathJs, $pathPluginTemplate, $io, $close ): void
     {
         if ( $close ) {
             $templ = [
